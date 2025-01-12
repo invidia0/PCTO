@@ -1,0 +1,36 @@
+FUNZIONE circle(robot, raggio = 0.1, altezza = 0, numero_punti = 10, numero_cerchi = 1)
+
+    // Ottieni la posa corrente del robot
+    posa_corrente = robot.ottieni_posa()
+    x_iniziale = posa_corrente[x] + raggio // Calcola la x iniziale del cerchio
+    y_iniziale = posa_corrente[y] // y iniziale del cerchio
+    z_iniziale = posa_corrente[z] // z iniziale del cerchio
+
+
+    // Ciclo esterno per il numero di cerchi
+    PER n DA 1 A numero_cerchi
+
+        // Ciclo interno per i punti del cerchio
+        PER i DA 1 A numero_punti
+
+            // Calcola l'angolo corrente
+            angolo = (i / numero_punti) * 2 * PI
+
+            // Calcola le coordinate x e y del punto sul cerchio
+            x = x_iniziale + raggio * coseno(angolo)
+            y = y_iniziale + raggio * seno(angolo)
+
+            // Calcola la coordinata z (aggiunge l'altezza)
+            z = z_iniziale + altezza
+
+            // Crea la posa completa (x, y, z, roll, pitch, yaw)
+            posa = [x, y, z, posa_corrente[roll], posa_corrente[pitch], posa_corrente[yaw]]
+
+            // Muovi il robot alla posa calcolata
+            robot.muovi_a_posa(posa)
+
+        FINE PER // Ciclo interno
+
+    FINE PER // Ciclo esterno
+
+FINE FUNZIONE
